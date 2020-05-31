@@ -144,10 +144,10 @@ file_put_contents($name, $data);
     /* START TRAINING TRIAL FOR PARTICIPANTS */
 
     var train_stimuli_array = [];
-    for (var i = 0; i < 3; i++){
-      train_stimuli_array.push("Stimuli/dog.png");
-      train_stimuli_array.push("Stimuli/dog2.jpeg");
-      train_stimuli_array.push("Stimuli/dog3.jpeg");
+    for (var i = 1; i <= 4; i++){
+      train_stimuli_array.push("Stimuli/dog"+i+".jpeg");
+      // train_stimuli_array.push("Stimuli/dog2.jpeg");
+      // train_stimuli_array.push("Stimuli/dog3.jpeg");
     }
       //train_stimuli_array.push("Stimuli/dog.png");
      // train_stimuli_array.push("Stimuli/dog2.jpeg");
@@ -157,7 +157,9 @@ file_put_contents($name, $data);
     {stimulus: train_stimuli_array[0], data: {test_part: 'c1_train', correct_response: ','}},//{stimulus: train_stimuli_array[0]}, //{stimulus: train_stimuli_array[0], data: {test_part: 'test', correct_response: ','}},
     {stimulus: train_stimuli_array[1], data: {test_part: 'c1_train', correct_response: ','}},  //{stimulus: train_stimuli_array[1]}, //{stimulus: train_stimuli_array[1], data: {test_part: 'test', correct_response: ','}},
     {stimulus: train_stimuli_array[2], data: {test_part: 'c1_train', correct_response: '.'}},  //{stimulus: train_stimuli_array[2]},  //{stimulus: train_stimuli_array[2], data: {test_part: 'test', correct_response: '.'}},
+    {stimulus: train_stimuli_array[3], data: {test_part: 'c1_train', correct_response: '.'}},
     ]
+    
 
     var fixation = {
       type: 'html-keyboard-response',
@@ -182,7 +184,7 @@ file_put_contents($name, $data);
     var c1_train_procedure = {
       timeline: [fixation, c1_train],
       timeline_variables: c1_train_stimuli,
-      randomize_order: true
+      randomize_order: false
     }
 
     timeline.push(c1_train_procedure);
