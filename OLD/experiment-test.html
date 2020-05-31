@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Self-Deception Task</title>
+    <script src="jsPsych/jspsych.js"></script>
+    <script src="jsPsych/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jsPsych/plugins/jspsych-image-keyboard-response.js"></script>
+    <link href="jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  </head>
+  <body  style="background-color:gray;"></body>
+  <script>
+
+    /* create timeline */
+    var timeline = [];
+
+    /* define welcome message trial */
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: "<p style='color:white;'>Welcome to the experiment! Press any key to begin.</p>"
+    };
+    timeline.push(welcome);
+
+    /* define instructions trial */
+    var instructions_1 = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="color:white;">You will see a series of abstract figures. They are adaptations of signs in the Korean alphabet, but that is not important for this study. </p>' +
+        '<p style="color:white;">Abstract figures sometimes have a more masculine or feminine shape. Here, each figure has already been assigned a gender '+
+        'as <q>Male</q> or <q>Female</q> by a panel of respondents in a pilot study. The respondents were not given specific instructions on how to do this, '+
+        'but were only told to use their intuition and to take into account the entire configuration of the stimulus. </p>'+
+        '<p style="color:white;">Your task now is to guess the assigned gender of each figure. Please press the corresponding response keys to indicate your choice: </p>'+
+        '<p style="color:white;"> Male &#8594 <q>,</q> (comma)</p>'+
+        '<p style="color:white;"> Female &#8594 <q>.</q> (period)</p>'+
+        '<p style="color:white;">Press either response keys to continue.</p>',
+      choices: [',', '.'],
+    };
+    timeline.push(instructions_1);
+
+    var instructions_2 = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="color:white;">Your choice is correct if it matches the gender assigned by the majority of respondents in the pilot study.</p> ' +
+          '<p style="color:white;">For each correct choice you will receive 5 cents. There will be 200 trials divided into 4 blocks of 50 trials. You will be able to take a break after every 50 trials.</p> ' +
+          '<p style="color:white;">Press either response keys to continue.</p>',
+      choices: [',', '.'],
+    };
+    timeline.push(instructions_2);
+
+    var instructions_3 = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="color:white;">Here are some examples.</p> ' +
+          '<p style="color:white;">For each, guess whether the assigned gender is male or female and indicate your choice by pressing the corresponding button.</p> ' +
+          '<p style="color:white;">Press either response keys to continue.</p>',
+      choices: [',', '.'],
+      post_trial_gap: 2000
+    };
+    timeline.push(instructions_3);
+
+
+    /* START TRAINING TRIAL FOR PARTICIPANTS */
+
+    var train_stimuli_array = [];
+    for (var i = 0; i < 3; i++){
+      train_stimuli_array.push("Stimuli/Hangul_E" + i + ".bmp");
+    }
+
+    var train_stimuli = [
+      {stimulus: train_stimuli_array[0]}, //{stimulus: train_stimuli_array[0], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: train_stimuli_array[1]}, //{stimulus: train_stimuli_array[1], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: train_stimuli_array[2]},  //{stimulus: train_stimuli_array[2], data: {test_part: 'test', correct_response: '.'}},
+    ]
+
+    var fixation = {
+      type: 'html-keyboard-response',
+      stimulus: '<div style="color:white; font-size:60px;">+</div>',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: 1000,
+      data: {test_part: 'fixation'}
+    }
+
+    var train = {
+      type: "image-keyboard-response",
+      stimulus: jsPsych.timelineVariable('stimulus'), //train_stimuli_array, //jsPsych.timelineVariable('stimulus'),
+      choices: [',', '.'],
+/*       data: jsPsych.timelineVariable('data'),
+      on_finish: function(data){
+        data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
+      } */
+    }
+
+    var train_procedure = {
+      timeline: [fixation, train],
+      timeline_variables: train_stimuli,
+      randomize_order: true
+    }
+
+    timeline.push(train_procedure);
+
+    /* END TRAINING TRIAL FOR PARTICIPANTS */
+
+
+    /* START PHASE I OF TASK: CLASSIFICATION PHASE  */
+
+    // Message to start phase 1
+    var instructions_4 = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="color:white;">Let us begin! Press either response keys when you are ready to start block 1 of 4.</p> ',
+      choices: [',', '.'],
+      post_trial_gap: 2000
+    };
+    timeline.push(instructions_4);
+
+    // Import all stimuli for the task
+    var test_stimuli_array = [];
+    for (var i = 0; i < 100; i++){
+      test_stimuli_array.push("Stimuli/Hangul_F" + i + ".bmp");
+      test_stimuli_array.push("Stimuli/Hangul_M" + i + ".bmp");
+    }
+
+    /* START OF PHASE I - BLOCK 1 */
+
+    // Import stimuli for phase I - block 1     
+    var stimuli_block1 = [
+      {stimulus: test_stimuli_array[0], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[1], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[2], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[3], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[4], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[5], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[6], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[7], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[8], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[9], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[10], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[11], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[12], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[13], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[14], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[15], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[16], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[17], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[18], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[19], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[20], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[21], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[22], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[23], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[24], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[25], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[26], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[27], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[28], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[29], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[30], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[31], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[32], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[33], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[34], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[35], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[36], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[37], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[38], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[39], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[40], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[41], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[42], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[43], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[44], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[45], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[46], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[47], data: {test_part: 'test', correct_response: ','}},
+      {stimulus: test_stimuli_array[48], data: {test_part: 'test', correct_response: '.'}},
+      {stimulus: test_stimuli_array[49], data: {test_part: 'test', correct_response: ','}},
+    ]
+
+    //var shuffled_stimuli = jsPsych.randomization.shuffle(all_test_stimuli);
+
+    var test = {
+      type: "image-keyboard-response",
+      stimulus: jsPsych.timelineVariable('stimulus'),
+      choices: [',', '.'],
+      data: jsPsych.timelineVariable('data'),
+      on_finish: function(data){
+        data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
+    }
+  }
+
+    var test_procedure_block1 = {
+      timeline: [fixation, test],
+      timeline_variables: stimuli_block1,
+      randomize_order: true
+    }
+
+    timeline.push(test_procedure_block1);
+
+    /* END OF PHASE I - BLOCK 1 */
+
+    // BREAK: Block 1 complete, start Block 2
+    var instructions_5 = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="color:white;">Good job, block 1 complete! Please take a moment to rest.</p> ' +
+          '<p style="color:white;">When you are ready to continue with block 2 of 4, press either response keys.</p> ',
+      choices: [',', '.'],
+      post_trial_gap: 2000
+    };
+    timeline.push(instructions_5);
+
+
+  var debrief_block = {
+      type: "html-keyboard-response",
+      stimulus: function(){
+
+        var trials = jsPsych.data.get().filter({test_part: 'test'});
+        var correct_trials = trials.filter({correct: true});
+        var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
+        var rt = Math.round(correct_trials.select('rt').mean());
+
+        return "<p style='color:white;'> You responded correctly on "+accuracy+"% of the trials. </p>"+
+        "<p style='color:white;'>Your average response time was "+rt+"ms.</p>"+
+        "<p style='color:white;'>Press any key to complete the experiment. Thank you!</p>";
+      }
+    }; 
+
+     timeline.push(debrief_block);
+
+    // COMPLETION MESSAGE: Completed Classification Phase
+    var instructions_8 = {
+      type: "html-keyboard-response",
+      stimulus: '<p style="color:white;">This portion of the experiment is complete.</p> ' +
+          '<p style="color:white;">Press the space bar to proceed to the next portion of the experiment.</p> ',
+      choices: [32],
+      post_trial_gap: 2000
+    };
+    timeline.push(instructions_8);
+
+     /* END PHASE I OF TASK: CLASSIFICATION PHASE  */
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline,
+      on_finish: function(){
+          jsPsych.data.displayData();
+      }
+    });
+  </script>
+  </html>
